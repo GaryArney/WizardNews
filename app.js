@@ -7,16 +7,11 @@ app.use(morgan('dev'));
 
 app.use(express.static('public'));
 
-
-
 app.get("/", (req, res) => {
-  
-const posts = postBank.list();
 
+  const posts = postBank.list();
 
-// console.log(postBank.list.post,'consolelog');
-
-const html = `<!DOCTYPE html>
+  const html = `<!DOCTYPE html>
 <html>
 <head>
   <title>Wizard News</title>
@@ -36,12 +31,12 @@ const html = `<!DOCTYPE html>
           ${post.upvotes} upvotes | ${post.date}
         </small>
       </div>`
-    ).join('')}
+  ).join('')}
   </div>
 </body>
 </html>`
 
-res.send(html);
+  res.send(html);
 
 });
 
@@ -54,7 +49,7 @@ app.get('/posts/:id', (req, res) => {
   const post = postBank.find(id);
 
   post.id ?
-res.send(`<!DOCTYPE html>
+    res.send(`<!DOCTYPE html>
 <html>
 <head>
   <title>Wizard News</title>
@@ -78,15 +73,16 @@ res.send(`<!DOCTYPE html>
   </div>
 </body>
 </html>`)
-:
-next()
+    :
+    next()
 });
 
 
 app.use((err, req, res, next) => {  //couldn't get this to catch an error, added ternary to the post area of app.get for post/:id.
   console.log('ERROR HANDLER STARTED');
   console.error(err.stack)
-  res.send(`<p>Something broke!<p>`)
+  res.send(`<p>Something broke!<p>
+    <p>Please enter another post id number in the URl, or go back in your browser.</p>`)
 })
 
 
